@@ -3,15 +3,20 @@ import { throttle } from 'lodash';
 const key = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
 const email = document.querySelector('input');
-const msg = document.querySelector('textarea');
+const message = document.querySelector('textarea');
+
+let userMsg = JSON.parse(localStorage.getItem(key));
 
 form.addEventListener('input', throttle(saveUserMsg, 500));
 form.addEventListener('submit', submitUserMsg);
 
-const userMsg = JSON.parse(localStorage.getItem(key));
 if (userMsg) {
-  email.value = userMsg['email'];
-  msg.value = userMsg['message'];
+  if (userMsg['email']) {
+    email.value = userMsg['email'];
+  }
+  if (userMsg['message']) {
+    message.value = userMsg['message'];
+  }
 }
 
 const userInfo = {};
