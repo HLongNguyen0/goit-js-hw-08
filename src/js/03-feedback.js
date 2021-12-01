@@ -2,20 +2,15 @@ import { throttle } from 'lodash';
 
 const key = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
-const email = document.querySelector('input');
-const message = document.querySelector('textarea');
 
 let userMsg = JSON.parse(localStorage.getItem(key));
 
 form.addEventListener('input', throttle(saveUserMsg, 500));
 form.addEventListener('submit', submitUserMsg);
 
-if (userMsg) {
-  if (userMsg['email']) {
-    email.value = userMsg['email'];
-  }
-  if (userMsg['message']) {
-    message.value = userMsg['message'];
+if (localStorage.getItem(key)) {
+  for (const elem in userMsg) {
+    form.elements[elem].value = userMsg[elem];
   }
 }
 
@@ -29,5 +24,4 @@ function submitUserMsg(event) {
   event.preventDefault();
   event.target.reset();
   localStorage.removeItem(key);
-  console.log(userMsg);
 }
